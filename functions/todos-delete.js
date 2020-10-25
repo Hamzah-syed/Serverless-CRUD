@@ -9,16 +9,17 @@ exports.handler = async (event, context) => {
       secret: process.env.FAUNADB_ADMIN_SECRET,
     })
 
-    let result = await client.query(
-      q.Map(
-        q.Paginate(q.Match(q.Index("all_messages"))),
-        q.Lambda("x", q.Get(q.Var("x")))
-      )
+    const reqId = JSON.parse(event.body)
+
+    const result = await client.query(
+      q.Delete(q.Ref(q.Collection("messages"), reqId))
     )
-    console.log("all the entries " + result.data.map(x => x.data.message))
+
     return {
       statusCode: 200,
-      body: JSON.stringify(result.data),
+      body: JSON.stringify({
+        message: "message deleted successfully",
+      }),
     }
   } catch (error) {
     return { statusCode: 400, body: error.toString() }
