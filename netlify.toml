@@ -3,5 +3,3 @@
   publish = "public/"
   functions = "functions/"
 
-[context.production]
-  environment = { FAUNADB_ADMIN_SECRET = "fnAD47Nw2hACAVO6erwZNfadQqBcjrHOdCnS9jML"}
